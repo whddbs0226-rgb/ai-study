@@ -75,3 +75,19 @@ try:
     set_voltage(-1)
 except ValueError as e:
     print(f"에러: {e}")
+
+
+
+def find_abnormal(cells, high=4.0, low= 3.0):
+    
+
+    return [
+        cell for cell in cells
+        if not (low <= float(cell["voltage"]) <= high)
+    ];
+
+cell_data = [{"id" : "1", "voltage" : "3.7" }, {"id" : "2", "voltage" : "4.2" }, {"id" : "3", "voltage" : "2.5" }]
+
+print (find_abnormal(cell_data))
+
+    

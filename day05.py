@@ -44,11 +44,14 @@ class BatteryModule(Component):
 
     def abnormal_cells(self):
         # 이상 셀 객체 리스트 반환 (컴프리헨션 사용)
-        pass
+        return [cell for cell in self.cells if cell.is_abnormal()]
 
     def summary(self):
         # "MOD-01: 셀 3개, 이상 1개, 평균 3.72V" 형태 문자열 반환
-        pass
+        total_cells = len(self.cells)
+        abnormal_count = len(self.abnormal_cells())
+        avg_v = self.avg_voltage()
+        return f"{self.component_id}: 셀 {total_cells}개, 이상 {abnormal_count}개, 평균 {avg_v:.2f}V"
 
 
 m = BatteryModule("MOD-01", [c1, c2])

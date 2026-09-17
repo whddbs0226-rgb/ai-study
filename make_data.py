@@ -54,7 +54,7 @@ print(data[0])     # 첫 행이 어떤 모양인지 눈으로 확인 ← 중요.
 
 
 
-def to_float(value, default=None):
+def to_float(value: str, default: float | None = None) -> float | None:
     """문자열을 float로. 실패하면 default 반환"""
     try:
         return float(value)
@@ -62,7 +62,7 @@ def to_float(value, default=None):
         return default 
 
 
-def cell_ids(rows):
+def cell_ids(rows: list[dict[str, str]]) -> list[str]:
     """등장하는 셀 ID 목록을 정렬해서 반환 (중복 제거)"""
     id_list = []
 
@@ -71,7 +71,7 @@ def cell_ids(rows):
     return sorted(set(id_list))
 
 
-def avg_voltage_by_cell(rows):
+def avg_voltage_by_cell(rows: list[dict[str, str]]) -> dict[str, float | None]:
     """셀별 평균 전압. {"CELL-001": 3.72, ...} 형태"""
     cell_data = {}
     result = {}
@@ -94,7 +94,7 @@ def avg_voltage_by_cell(rows):
     return result
 
 
-def max_temp_by_cell(rows):
+def max_temp_by_cell(rows: list[dict[str, str]]) -> dict[str, float]:
     """셀별 최고 온도. {"CELL-001": 44.2, ...} 형태"""
     cell_data = {}
     result = {}
@@ -118,7 +118,7 @@ def max_temp_by_cell(rows):
     return result
 
 
-def abnormal_rows(rows, high=4.2, low=3.0):
+def abnormal_rows(rows: list[dict[str, str]], high: float = 4.2, low : float = 3.0) -> list[dict[str, str]]:
     """전압이 범위를 벗어난 행 리스트"""
 
     cell_list = []
@@ -133,9 +133,9 @@ def abnormal_rows(rows, high=4.2, low=3.0):
     return cell_list
 
 
-def report(rows):
-    """아래 형태로 출력
-    CELL-001 | 평균 3.721V | 최고온도 44.2C | 이상 3건
+def report(rows: list[dict[str, str]]) -> list[str]:
+    """문자열 리스트 반환
+    ["CELL-001 | 평균 3.721V | 최고온도 44.2C | 이상 3건", ...]
     """
     result_list = []
     cell_avg_dict = avg_voltage_by_cell(rows)
@@ -150,7 +150,7 @@ def report(rows):
             if abnormal_data['cell_id'] == cell:
                 abnormal_count += 1
         
-        result = f"{cell} | 평균 {cell_avg}V | 최고온도 {max_temp} | 이상 {abnormal_count} 건"
+        result = f"{cell} | 평균 {cell_avg:.3f}V | 최고온도 {max_temp} | 이상 {abnormal_count} 건"
         result_list.append(result)
 
     return result_list

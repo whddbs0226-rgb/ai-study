@@ -1,3 +1,4 @@
+from pydantic.main import BaseModel
 class BatteryCell:
     def __init__(self, cell_id, voltage, temp):
         self.cell_id = cell_id
@@ -42,3 +43,12 @@ class BatteryModule(Component):
         abnormal_count = len(self.abnormal_cells())
         avg_v = self.avg_voltage()
         return f"{self.component_id}: 셀 {total_cells}개, 이상 {abnormal_count}개, 평균 {avg_v:.2f}V"
+
+
+# battery/models.py
+class CellRow(BaseModel):
+    timestamp: str
+    cell_id: str
+    voltage: float
+    current: float
+    temp: float

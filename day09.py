@@ -86,14 +86,3 @@ print(app_env, max_retries)
 
 from pydantic_settings import BaseSettings
 
-class Settings(BaseSettings):
-    api_key: str
-    app_env: str = "production"
-    max_retries: int = 3          # 자동으로 int 변환 + 검증
-
-    class Config:
-        env_file = ".env"
-
-
-settings = Settings() # type: ignore
-print(settings.api_key, settings.max_retries, type(settings.max_retries))

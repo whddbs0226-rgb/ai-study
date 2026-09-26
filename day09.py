@@ -77,7 +77,7 @@ from dotenv import load_dotenv
 
 load_dotenv()      # .env 파일을 읽어서 환경변수로 등록
 
-api_key = os.getenv("API_KEY")
+api_key = os.getenv("GOOGLE_API_KEY")
 app_env = os.getenv("APP_ENV", "production")     # 없으면 기본값
 max_retries = int(os.getenv("MAX_RETRIES", "3")) # 환경변수는 항상 문자열! 변환 필요
 

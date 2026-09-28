@@ -2,7 +2,10 @@ from api.errors import register_error_handlers
 from api.deps import SettingsDep
 from api.errors import AppError
 from api.schemas import CellCreate, CellResponse
+from api.llm import stream_llm
+from api.schemas import AskRequest
 from fastapi import HTTPException, FastAPI, status
+from fastapi.responses import StreamingResponse
 
 app = FastAPI()
 register_error_handlers(app)
@@ -73,3 +76,10 @@ async def get_cell(cell_id: str) -> CellResponse:
 async def get_report(settings: SettingsDep):
     data = load_cells(settings.csv_path)
     return {"report": report(data)}
+
+@app.post("/ask/stream")
+async def ask_stream(payload: AskRequest):
+    return StreamingResponse(
+        stream_llm(payload.question),        # 비동기 제너레이터를 그대로 넘김
+        media_type="text/event-stream",      # SSE임을 브라우저에 알리는 MIME 타입
+    )
